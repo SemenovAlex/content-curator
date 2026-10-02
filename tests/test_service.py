@@ -57,3 +57,28 @@ def test_stateless_accepts_reliably_dated_index_candidate(tmp_path: Path, monkey
     items, errors, _ = ingest_source(source(), [candidate("2026-09-10T10:00:00+00:00")], date(2026, 9, 10), "Europe/Moscow", tmp_path, stateless=True)
     assert len(items) == 1
     assert errors == []
+
+
+def test_detail_timestamp_can_roll_index_date_into_next_moscow_day(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    patch_extract(
+        monkeypatch,
+        datetime(2026, 9, 1, 23, 31, tzinfo=timezone.utc),
+    )
+
+    items, errors, _ = ingest_source(
+        source(),
+        [candidate("2026-09-01T00:00:00+00:00")],
+        date(2026, 9, 2),
+        "Europe/Moscow",
+        tmp_path,
+        stateless=True,
+    )
+
+    assert len(items) == 1
+    assert items[0].published_at == datetime(
+        2026, 9, 1, 23, 31, tzinfo=timezone.utc
+    )
+    assert errors == []

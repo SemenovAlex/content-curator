@@ -124,8 +124,14 @@ def ingest_source(source: SourceConfig, candidates: list[DiscoveryCandidate], ta
             continue
         if not candidate_date:
             candidate_date = parse_datetime(known.get(candidate.canonical_url, {}).get("published_at"))
-        if candidate_date and date_in_timezone(candidate_date, tz_name) != target:
-            continue
+        if candidate_date:
+            candidate_day = date_in_timezone(candidate_date, tz_name)
+            # Landing pages often expose only a publisher calendar date while
+            # the detail page provides an exact timestamp. Around timezone
+            # boundaries those can fall on adjacent days. Probe adjacent-day
+            # candidates and let the exact detail timestamp decide.
+            if abs((candidate_day - target).days) > 1:
+                continue
 
         content_id = content_id_for_url(candidate.canonical_url)
         try:

@@ -75,7 +75,9 @@ For `must_read` and `summary_enough`, store 5–7 concrete new/non-obvious insig
 
 If it names missing analysis IDs, analyze those IDs and retry. Never bypass completeness validation.
 
-8. Build the Russian Markdown digest in the agent workspace at `/workspace/.content-curator/YYYY-MM-DD.md`. The corresponding host path is `/home/dtadmin/.openclaw/workspace-curator/.content-curator/YYYY-MM-DD.md`.
+8. Build the Russian Markdown digest as a STAGING file in the agent workspace at `/workspace/.content-curator/YYYY-MM-DD.md`. The corresponding host path is `/home/dtadmin/.openclaw/workspace-curator/.content-curator/YYYY-MM-DD.md`.
+
+This workspace file is NOT published and must never be reported as the published digest.
 
 Use this structure:
 
@@ -109,4 +111,20 @@ For `skip`, include title, source, and concise reason. For `unprocessed`, includ
 
 `/opt/content-curator/.venv/bin/curator publish-digest --date YYYY-MM-DD --input /home/dtadmin/.openclaw/workspace-curator/.content-curator/YYYY-MM-DD.md --config /opt/content-curator/sources.yaml`
 
-10. Return only a compact completion summary: published path and category counts. Do not send the entire digest to chat unless explicitly asked.
+Publication is successful ONLY when this command returns JSON with `"ok": true` and its `"path"` is inside:
+
+`/home/dtadmin/obsidian-vault/Digital Twin/90 Agent/Content Curator/Digests/`
+
+Never treat the workspace staging path as published.
+
+If `publish-digest` fails, returns `"ok": false`, is denied, or returns a path outside the Obsidian digest directory:
+- do not claim publication succeeded;
+- do not print `Published:`;
+- return a compact `Publication failed:` message with the CLI error;
+- keep the staging Markdown so the run can be resumed without repeating analysis.
+
+10. Return only a compact completion summary after successful publication. Use the exact `"path"` returned by the successful `publish-digest` command:
+
+`Published: <Obsidian path>`
+
+Then report category counts. Do not send the entire digest to chat unless explicitly asked.
