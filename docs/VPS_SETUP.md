@@ -131,7 +131,7 @@ openclaw sandbox explain --agent curator
 openclaw approvals get --gateway
 ```
 
-Expected posture: sandbox=`all`, scope=`agent`, workspace=`rw`, exec host=`gateway`, mode=`auto`, exact curator binary allowlisted.
+Expected posture: sandbox=`all`, scope=`agent`, workspace=`rw`, exec host=`gateway`, mode=`allowlist`, exact curator binary allowlisted.
 
 ## 7. Full manual run
 

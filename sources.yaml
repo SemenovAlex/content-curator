@@ -57,6 +57,7 @@ sources:
       renderer: auto
       include_path_regexes:
         - '^/research/'
+        - '^/blog/'
       exclude_path_regexes:
         - '^/research/?$'
       allowlist_sitemaps: []
@@ -189,18 +190,18 @@ sources:
   - id: huggingface_blog
     name: Hugging Face Blog
     type: web
-    url: https://huggingface.co/blog
+    url: https://huggingface.co/blog/feed.xml
     content_role: technical_research_ecosystem
     discovery:
       scope: exact_page
-      renderer: auto
+      renderer: http
       include_path_regexes:
         - '^/blog/[^/]+/?$'
         - '^/blog/[^/]+/[^/]+/?$'
       exclude_path_regexes:
         - '^/blog/?$'
       allowlist_sitemaps: []
-      mode: links
+      mode: rss
 
   - id: latent_space
     name: Latent Space

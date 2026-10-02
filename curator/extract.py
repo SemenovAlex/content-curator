@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
+from urllib.parse import urlsplit
 
 import trafilatura
 from bs4 import BeautifulSoup
@@ -76,6 +77,33 @@ def _title(soup: BeautifulSoup, json_title: str, fallback_title: str) -> tuple[s
     return normalize_text(fallback_title) or "Untitled article", "fallback"
 
 
+def _normalize_article_title(
+    title: str,
+    soup: BeautifulSoup,
+    url: str,
+    origin: str,
+) -> tuple[str, str]:
+    host = (urlsplit(url).hostname or "").casefold()
+    value = normalize_text(title)
+
+    # Gurobi exposes an SEO/site suffix in page metadata while the article
+    # heading itself does not contain it.
+    if host.endswith("gurobi.com"):
+        value = re.sub(r"\s*\|\s*Gurobi\s*$", "", value, flags=re.I).strip()
+
+    # Anthropic's SEO title can be a shortened/rephrased variant of the
+    # visible publication title. For article detail pages, use the explicit
+    # non-generic H1 as the publication title.
+    if host.endswith("anthropic.com"):
+        h1 = soup.find("h1")
+        if h1:
+            h1_title = normalize_text(h1.get_text(" ", strip=True))
+            if h1_title and not is_generic_title(h1_title):
+                return h1_title, "h1"
+
+    return value, origin
+
+
 def _published_at(soup: BeautifulSoup, json_date: datetime | None) -> tuple[datetime | None, str | None]:
     for name in ("article:published_time", "datePublished", "dateCreated", "uploadDate", "publication_date", "publish-date", "date"):
         parsed = parse_datetime(_meta(soup, name))
@@ -123,6 +151,7 @@ def extract_article(html: str, url: str, fallback_title: str = "") -> ExtractedA
     soup = BeautifulSoup(html, "html.parser")
     json_title, json_description, json_date, json_raw = _json_ld_fields(soup)
     title, title_origin = _title(soup, json_title, fallback_title)
+    title, title_origin = _normalize_article_title(title, soup, url, title_origin)
     description = _meta(soup, "og:description", "description", "twitter:description") or json_description
     published_at, date_origin = _published_at(soup, json_date)
     text = trafilatura.extract(
