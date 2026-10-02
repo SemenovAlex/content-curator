@@ -1,0 +1,16 @@
+beautifulsoup4<5,>=4.12
+httpx<1,>=0.28
+matplotlib<4,>=3.9
+pydantic<3,>=2.10
+python-dateutil<3,>=2.9
+PyYAML<7,>=6
+trafilatura<3,>=2.0
+typer<1,>=0.15
+
+[browser]
+playwright<2,>=1.52
+
+[dev]
+pytest<9,>=8.3
+pytest-cov<7,>=6
+ruff<1,>=0.11

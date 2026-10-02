@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-curator"
+version = "0.1.0"
+description = "Deterministic article ingest and storage CLI for an OpenClaw content curator agent"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "beautifulsoup4>=4.12,<5",
+  "httpx>=0.28,<1",
+  "matplotlib>=3.9,<4",
+  "pydantic>=2.10,<3",
+  "python-dateutil>=2.9,<3",
+  "PyYAML>=6,<7",
+  "trafilatura>=2.0,<3",
+  "typer>=0.15,<1",
+]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.52,<2"]
+dev = ["pytest>=8.3,<9", "pytest-cov>=6,<7", "ruff>=0.11,<1"]
+
+[project.scripts]
+curator = "curator.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["curator*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]

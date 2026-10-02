@@ -1,0 +1,293 @@
+retention:
+  raw_retention_days: 30
+  full_content_retention_days: 90
+  history_retention_days: null
+  max_storage_gb: 5
+
+sources:
+  - id: import_ai
+    name: Import AI
+    type: web
+    url: https://jack-clark.net/
+    content_role: newsletter
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/\d{4}/\d{2}/\d{2}/import-ai-'
+      exclude_path_regexes: []
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: the_batch
+    name: The Batch
+    type: web
+    url: https://www.deeplearning.ai/the-batch
+    content_role: technical_newsletter
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/the-batch/'
+      exclude_path_regexes:
+        - '^/the-batch/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: one_useful_thing
+    name: One Useful Thing
+    type: web
+    url: https://www.oneusefulthing.org/feed
+    content_role: newsletter
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes: []
+      exclude_path_regexes: []
+      allowlist_sitemaps: []
+      mode: rss
+
+  - id: metr_research
+    name: METR Research
+    type: web
+    url: https://metr.org/research/
+    content_role: research
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/research/'
+      exclude_path_regexes:
+        - '^/research/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: ahead_of_ai
+    name: Ahead of AI
+    type: web
+    url: https://magazine.sebastianraschka.com/feed
+    content_role: technical_newsletter
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes: []
+      exclude_path_regexes: []
+      allowlist_sitemaps: []
+      mode: rss
+
+  - id: gurobi_blog
+    name: Gurobi Blog
+    type: web
+    url: https://www.gurobi.com/resources/blog
+    content_role: optimization_engineering
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/resources/'
+      exclude_path_regexes:
+        - '^/resources/blog/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: anthropic_research
+    name: Anthropic Research
+    type: web
+    url: https://www.anthropic.com/research
+    content_role: primary_research
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/research/'
+      exclude_path_regexes:
+        - '^/research/?$'
+        - 'responsible-disclosure-policy'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: anthropic_engineering
+    name: Anthropic Engineering
+    type: web
+    url: https://www.anthropic.com/engineering
+    content_role: primary_research_engineering
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/engineering/'
+      exclude_path_regexes:
+        - '^/engineering/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: anthropic_news
+    name: Anthropic News
+    type: web
+    url: https://www.anthropic.com/news
+    content_role: company_news
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/news/'
+      exclude_path_regexes:
+        - '^/news/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: openai_research
+    name: OpenAI Research
+    type: web
+    url: https://openai.com/news/rss.xml
+    content_role: primary_research
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/(index|news|research)/'
+      exclude_path_regexes:
+        - '^/research/index/?$'
+      allowlist_sitemaps:
+        - https://openai.com/sitemap.xml/research/
+        - https://openai.com/sitemap.xml/release/
+      mode: rss
+
+  - id: deepmind_blog
+    name: Google DeepMind Blog
+    type: web
+    url: https://deepmind.google/blog/
+    content_role: primary_research_engineering
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/blog/'
+        - '^/innovation-and-ai/'
+      exclude_path_regexes:
+        - '^/blog/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: deepmind_research
+    name: Google DeepMind Research
+    type: web
+    url: https://deepmind.google/research/publications/
+    content_role: research_papers
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/research/publications/'
+      exclude_path_regexes:
+        - '^/research/publications/?$'
+        - '^/research/projects/?$'
+        - '^/research/evals/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: huggingface_blog
+    name: Hugging Face Blog
+    type: web
+    url: https://huggingface.co/blog
+    content_role: technical_research_ecosystem
+    discovery:
+      scope: exact_page
+      renderer: auto
+      include_path_regexes:
+        - '^/blog/[^/]+/?$'
+        - '^/blog/[^/]+/[^/]+/?$'
+      exclude_path_regexes:
+        - '^/blog/?$'
+      allowlist_sitemaps: []
+      mode: links
+
+  - id: latent_space
+    name: Latent Space
+    type: podcast
+    url: https://www.latent.space/podcast
+    content_role: podcast
+    discovery:
+      scope: exact_page
+      renderer: auto
+      mode: page_snapshot
+
+  - id: dwarkesh_podcast
+    name: Dwarkesh Podcast
+    type: podcast
+    url: https://www.dwarkesh.com/podcast
+    content_role: podcast
+    discovery:
+      scope: exact_page
+      renderer: auto
+      mode: page_snapshot
+
+  - id: practical_ai
+    name: Practical AI
+    type: podcast
+    url: https://appliedsciencecommons.net/collections/68203/the-practical-ai-podcast/
+    content_role: podcast
+    discovery:
+      scope: exact_page
+      renderer: auto
+      mode: page_snapshot
+
+  - id: yandexforml
+    name: Yandex for ML
+    type: telegram
+    url: https://t.me/yandexforml
+    content_role: telegram_channel
+
+  - id: opendatascience
+    name: OpenDataScience
+    type: telegram
+    url: https://t.me/OpenDataScience
+    content_role: telegram_channel
+
+  - id: datafest
+    name: DataFest
+    type: telegram
+    url: https://t.me/datafest
+    content_role: telegram_channel
+
+  - id: reliable_ml
+    name: Reliable ML
+    type: telegram
+    url: https://t.me/reliable_ml
+    content_role: telegram_channel
+
+  - id: llm_under_hood
+    name: LLM под капотом
+    type: telegram
+    url: https://t.me/llm_under_hood
+    content_role: telegram_channel
+
+  - id: aihubvk
+    name: AI VK Hub
+    type: telegram
+    url: https://t.me/aihubvk
+    content_role: telegram_channel
+
+  - id: tarasov_math_blog
+    name: Tarasov Math Blog
+    type: telegram
+    url: https://t.me/tarasov_math_blog
+    content_role: telegram_channel
+
+  - id: yandexforteamleads
+    name: Yandex for Team Leads
+    type: telegram
+    url: https://t.me/yandexforteamleads
+    content_role: telegram_channel
+
+  - id: dmitrii_ireshev_agile_pmp
+    name: Dmitrii Ireshev — Agile/PMP
+    type: telegram
+    url: https://t.me/dmitrii_ireshev_Agile_PMP
+    content_role: telegram_channel
+
+  - id: smestavcareer
+    name: smestavcareer
+    type: telegram
+    url: https://t.me/smestavcareer
+    content_role: telegram_channel
